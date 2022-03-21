@@ -1,0 +1,1 @@
+export const millisecondsToSeconds = (value) => value /1000
