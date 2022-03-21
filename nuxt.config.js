@@ -42,7 +42,8 @@ export default {
     component: 'fa',
     icons: {
       solid:['faAngleDown','faTableCells','faPlay', 'faDatabase','faSpinner']
-    }
+    },
+    addCss: true
   },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
