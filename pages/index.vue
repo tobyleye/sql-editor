@@ -54,12 +54,12 @@
       </div>
     </template>
 
-    <template #query-duration-area>
-      <div v-if="!loading && !error && result" class="text-gray-400">
+    <template #query-meta-area>
+      <div v-if="queryIsResolved" class="text-gray-400">
         <span class="font-semibold text-black">
           {{ result.length }} rows
         </span>
-        in {{ queryDuration }}s
+        in {{ queryExecutionTime }}s
       </div>
     </template>
 
@@ -105,13 +105,16 @@ export default {
       error: null,
       tabs: [],
       activeTabIndex: 0,
-      queryDuration: null,
+      queryExecutionTime: null,
     }
   },
   computed: {
     activeTab() {
       return this.tabs[this.activeTabIndex]
     },
+    queryIsResolved() {
+      return !this.isLoading && !this.error && this.result !== null
+    }
   },
 
   watch: {
@@ -163,14 +166,14 @@ export default {
 
       this.isLoading = true
       this.error = null
-      this.queryDuration = null
+      this.queryExecutionTime = null
       const url = `https://raw.githubusercontent.com/graphql-compose/graphql-compose-examples/master/examples/northwind/data/json/${this.selectedTable}.json`
       try {
         const start = new Date()
         const data = await fetch(url).then((res) => res.json())
         this.result = data
         this.updateHistory()
-        this.queryDuration = millisecondsToSeconds(new Date() - start)
+        this.queryExecutionTime = millisecondsToSeconds(new Date() - start)
       } catch (err) {
         this.error = true
       } finally {
@@ -182,6 +185,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+textarea {
+  &:focus {
+    outline: none;
+    box-shadow:  0 0 0 1px white,
+                  0 0 0 2px rgba(0,0,0,.5);
+  }
+}
+
 .menu {
   button {
     @apply px-4 py-2 rounded-sm text-sm text-black inline-flex items-center w-full text-left;

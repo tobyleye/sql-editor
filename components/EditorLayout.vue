@@ -32,7 +32,7 @@
         <slot name="editor-area" />
       </div>
       <div class="border-t border-b border-gray-300 py-4 px-6">
-        <slot name="query-duration-area"/>
+        <slot name="query-meta-area"/>
       </div>
       <div class="relative">
         <div class="absolute top-0 left-0 w-full h-full overflow-auto">
