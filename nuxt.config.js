@@ -35,20 +35,24 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
   ],
 
-  fontawesome:{
+  fontawesome: {
     component: 'fa',
     icons: {
-      solid:['faAngleDown','faTableCells','faPlay', 'faDatabase','faSpinner']
+      solid: [
+        'faAngleDown',
+        'faTableCells',
+        'faPlay',
+        'faDatabase',
+        'faSpinner',
+      ],
     },
-    addCss: true
+    addCss: true,
   },
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/axios'
-  ],
+  modules: ['@nuxtjs/axios'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
