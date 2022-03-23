@@ -1,5 +1,5 @@
 <template>
-  <div class="text-base text-gray-800 font-sans-serif border border-red-300">
+  <div class="text-base text-gray-800 font-sans-serif border">
       <nuxt />
   </div>
 </template>
