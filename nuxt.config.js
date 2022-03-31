@@ -47,6 +47,8 @@ export default {
         'faPlay',
         'faDatabase',
         'faSpinner',
+        'faCaretUp',
+        'faCaretDown'
       ],
     },
     addCss: true,

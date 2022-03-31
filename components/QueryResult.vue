@@ -2,24 +2,27 @@
   <div v-if="loading" class="w-full h-full grid place-items-center">
     loading...
   </div>
-  <div v-else-if="error" class="w-full h-full grid place-items-center">
+  <div v-else-if="error" class="text-red-500 w-full h-full grid place-items-center">
     oops error occured
   </div>
   <div v-else class="overflow-auto">
     <table>
       <thead>
         <tr>
-          <th class="serial-number"/>
-          <th v-for="(field, index) of fields" :key="index">
-            <span  class="inline-block cursor-pointer" @click="setSort(field)">
-              {{ field | camelCaseToTitle }}
-            </span>
-          </th>
+          <th class="serial-number" />
+          <header-cell
+            v-for="(field, index) of fields"
+            :key="index"
+            :field="field"
+            :sorted="sort.key === field"
+            :is-ascending="sort.isAscending"
+            @sort="sortData"
+           />
         </tr>
       </thead>
       <tbody>
         <tr v-for="(row, rowIndex) of sortedData" :key="`row-${rowIndex}`">
-          <td class="serial-number">{{rowIndex+1}}</td>
+          <td class="serial-number">{{ rowIndex + 1 }}</td>
           <td
             v-for="(field, colIndex) in fields"
             :key="`item-${rowIndex}-${colIndex}`"
@@ -33,13 +36,12 @@
 </template>
 
 <script>
+import HeaderCell from '@/components/HeaderCell.vue'
+
 export default {
   name: 'QueryResult',
-    filters: {
-    camelCaseToTitle(value) {
-     value = value.replace(/([a-z])([A-Z])/g, (_,p1,p2) => `${p1} ${p2}`)
-     return value.charAt(0).toUpperCase() + value.slice(1,)
-    }
+  components: {
+    HeaderCell,
   },
   props: {
     data: {
@@ -54,16 +56,18 @@ export default {
       type: Boolean,
       default: false,
     },
-     error: {
+    error: {
       type: Boolean,
       default: false,
-    }
+    },
   },
 
   data() {
     return {
-      sortBy: null,
-      sortDirection: null,
+      sort: {
+        key: null,
+        isAscending: false,
+      },
     }
   },
   computed: {
@@ -77,33 +81,27 @@ export default {
       return []
     },
     sortedData() {
-      if (!this.sortBy || !this.sortDirection) {
+      if (!this.sort.key) {
         return this.data
       }
 
-      const isAscending = this.sortDirection === 'asc'
-      const sortKey = this.sortBy
+      const { key, isAscending } = this.sort
 
       return [...this.data].sort((a, b) => {
         if (isAscending) {
-          return a[sortKey] > b[sortKey]
+          return a[key] > b[key]
         } else {
-          return b[sortKey] > a[sortKey]
+          return b[key] > a[key]
         }
       })
     },
   },
 
   methods: {
-    setSort(field) {
-      this.sortBy = field
-      if (!this.sortDirection) {
-        this.sortDirection = 'asc'
-      }
-      if (this.sortDirection === 'asc') {
-        this.sortDirection = 'desc'
-      } else {
-        this.sortDirection = 'asc'
+    sortData([key, isAscending]) {
+      this.sort = {
+        key,
+        isAscending,
       }
     },
   },
@@ -111,8 +109,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-table{
+table {
   @apply w-full text-gray-600 border-collapse text-sm;
 }
 
@@ -120,11 +117,12 @@ th {
   @apply border-gray-300 bg-gray-100;
 }
 
-thead{
+thead {
   @apply sticky top-0;
 }
 
-th,td {
+th,
+td {
   @apply px-4 py-2 border border-gray-300;
 }
 
@@ -136,10 +134,7 @@ tr:nth-child(2n) td:not(.serial-number) {
   width: 40px;
 }
 
-td.serial-number{
-  @apply  bg-gray-100 text-center border-none; 
+td.serial-number {
+  @apply bg-gray-100 text-center border-none;
 }
-
-
-
 </style>
