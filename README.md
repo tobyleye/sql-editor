@@ -14,6 +14,9 @@ source: Google Chrome dev tools & lighthouse
 3. PurgeCSS, being enabled by default, keeps the the final css output to a minimal by dropping unused tailwind utility classes. 
 4. Didn't use any fancy text editor for sql 
 
+
+# Todo
+1. Refactor EditorTab component & Index Page
 ## Build Setup
 
 ```bash
