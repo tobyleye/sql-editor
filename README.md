@@ -1,5 +1,18 @@
 # sql-editor
+[show me](http://sql-editor-silk.vercel.app/)
 
+# Page Load Time 
+
+![lighthouse](/lighthouse.png)
+Page load time: 0.4s
+bundle size: 401kb
+
+source: Google Chrome dev tools & lighthouse
+# Optimization Strategies
+1. I use very few external libraries
+2. i used tailwind to style components because it's fast and how light it can potentially make a web app css assets. 
+3. PurgeCSS, being enabled by default, keeps the the final css output to a minimal by dropping unused tailwind utilty classes. 
+4. Did use any fancy text editor for sql 
 ## Build Setup
 
 ```bash
