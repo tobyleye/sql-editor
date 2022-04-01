@@ -2,7 +2,10 @@
   <div v-if="loading" class="w-full h-full grid place-items-center">
     loading...
   </div>
-  <div v-else-if="error" class="text-red-500 w-full h-full grid place-items-center">
+  <div
+    v-else-if="error"
+    class="text-red-500 w-full h-full grid place-items-center"
+  >
     oops error occured
   </div>
   <div v-else class="overflow-auto">
@@ -17,7 +20,7 @@
             :sorted="sort.key === field"
             :is-ascending="sort.isAscending"
             @sort="sortData"
-           />
+          />
         </tr>
       </thead>
       <tbody>
@@ -75,7 +78,7 @@ export default {
       if (this.data.length > 0) {
         const firstRow = this.data[0]
         return Object.keys(firstRow).filter((key) => {
-          return typeof firstRow[key] === 'string'
+          return ['string', 'number'].includes(typeof firstRow[key])
         })
       }
       return []
@@ -87,13 +90,14 @@ export default {
 
       const { key, isAscending } = this.sort
 
-      return [...this.data].sort((a, b) => {
+      const sorted = [...this.data].sort((a, b) => {
         if (isAscending) {
-          return a[key] > b[key]
+          return b[key] > a[key] ? -1 : 1
         } else {
-          return b[key] > a[key]
+          return b[key] > a[key] ? 1 : -1
         }
       })
+      return sorted
     },
   },
 
